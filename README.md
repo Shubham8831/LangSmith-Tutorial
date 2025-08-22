@@ -1,4 +1,4 @@
-# LangSmith: Why Do We Need It? 🤔
+# **LangSmith: Why Do We Need It? 🤔**
 
 ## The Problem with LLM Applications
 
@@ -63,4 +63,69 @@ LangSmith provides **visibility and debugging tools** specifically designed for 
 
 ---
 
-*Next: How LangSmith solves these problems...*
+## Key term : What is Observability? 👀
+
+**Observability** = The ability to see what's happening inside your system
+
+Think of it like having X-ray vision for your AI application:
+- **Trace every step** from start to finish
+- **Understand internal state** by looking at external outputs (logs, metrics, traces)
+- **Diagnose issues** and improve performance by analyzing system data
+
+### Why Traditional Monitoring Fails for AI?
+- Regular apps: Clear error messages, predictable flows
+- AI apps: Silent failures, complex multi-step workflows, unpredictable outputs
+
+---
+
+## **LangSmith: Your AI Observability Solution 🔬**
+
+**LangSmith** is a unified platform for debugging, testing, and monitoring AI applications.
+
+### What Does LangSmith Trace?
+Every execution captures:
+- 📥 **Input & Output** - What goes in, what comes out
+- 🔄 **All Intermediate Steps** - Every component in your workflow
+- ⏱️ **Latency** - How long each step takes
+- 🪙 **Token Usage** - Exact tokens consumed
+- 💰 **Cost** - Real money spent per execution
+- ❌ **Errors** - When and where things break
+- 🏷️ **Tags & Metadata** - Custom labels for organization
+- 💬 **Feedback** - User ratings and comments
+
+---
+
+## Core LangSmith Concepts 🧱
+
+### 📁 **Project**
+The complete AI workflow/application is called project
+- Example: User → Prompt → LLM → Parser
+
+### 🔗 **Trace** 
+One single execution of your entire project 
+- When a user asks one question = 1 trace
+
+### ⚙️ **Run**
+Execution of individual components within a trace
+- **Prompt Run**: Processing the user input
+- **LLM Run**: Getting response from the language model  
+- **Parser Run**: Formatting the final output
+
+### Example Breakdown:
+```
+Project: AI Job Assistant
+├── Trace 1: "Find me Python jobs"
+│   ├── Run 1: Process user query (Prompt)
+│   ├── Run 2: Search jobs database (LLM)
+│   └── Run 3: Format results (Parser)
+└── Trace 2: "Write cover letter"
+    ├── Run 1: Analyze job requirements (Prompt)
+    ├── Run 2: Generate letter (LLM)
+    └── Run 3: Format output (Parser)
+```
+
+**Result:** Complete visibility into every step of your AI application! 🎯
+
+---
+
+*Next: Setting up LangSmith...*
