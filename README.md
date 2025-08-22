@@ -13,7 +13,7 @@ Large Language Models (LLMs) are powerful but come with unique challenges that t
 
 ---
 
-## Real-World Examples
+## Real-World Problems
 
 ### 🔍 Example 1: AI Job Assistant
 **What it does:** Finds relevant jobs and crafts cover letters with your resume
@@ -63,7 +63,7 @@ LangSmith provides **visibility and debugging tools** specifically designed for 
 
 ---
 
-## Key term : What is Observability? 👀
+## What is Observability? 👀
 
 **Observability** = The ability to see what's happening inside your system
 
@@ -78,7 +78,7 @@ Think of it like having X-ray vision for your AI application:
 
 ---
 
-## **LangSmith: Your AI Observability Solution 🔬**
+## LangSmith: Your AI Observability Solution 🔬
 
 **LangSmith** is a unified platform for debugging, testing, and monitoring AI applications.
 
@@ -98,11 +98,11 @@ Every execution captures:
 ## Core LangSmith Concepts 🧱
 
 ### 📁 **Project**
-The complete AI workflow/application is called project
+The complete AI workflow/application
 - Example: User → Prompt → LLM → Parser
 
 ### 🔗 **Trace** 
-One single execution of your entire project 
+One single execution of your entire project
 - When a user asks one question = 1 trace
 
 ### ⚙️ **Run**
@@ -128,4 +128,92 @@ Project: AI Job Assistant
 
 ---
 
-*Next: Setting up LangSmith...*
+## 🚀 Getting Started with LangSmith
+
+### Step 1: Clone the Tutorial Repository
+```bash
+git clone https://github.com/Shubham8831/LangSmith-Tutorial
+cd LangSmith-Tutorial
+```
+
+### Step 2: Environment Setup (.env file)
+Create a `.env` file in your project root with these keys:
+
+```env
+# Groq API Key (for LLM calls)
+GROQ_API_KEY=your_groq_api_key_here
+LANGCHAIN_API_KEY=langsmith_api_key_here
+
+# LangSmith Configuration
+LANGCHAIN_TRACING_V2=true
+LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
+LANGCHAIN_PROJECT=your_project_name
+```
+
+### Step 3: Run Your First Example
+```bash
+python 1_simple_llm_call.py
+```
+
+### Step 4: View Results
+1. Open [LangSmith Website](https://smith.langchain.com/)
+2. Go to your project dashboard
+3. See detailed traces, costs, and performance metrics!
+
+---
+
+## 🎛️ Advanced Configuration
+
+### Setting Project Name in Code
+```python
+import os
+os.environ['LANGCHAIN_PROJECT'] = "My AI Assistant"
+```
+
+### Adding Tags, Metadata & Custom Names
+Use the `config` parameter when invoking your chain:
+
+```python
+# Example configuration
+config = {
+    "run_name": "Custom Run Name",
+    "tags": ["production", "user-query", "v1.2"],
+    "metadata": {
+        "user_id": "user_123",
+        "session_id": "session_456",
+        "version": "1.2.0",
+        "environment": "production"
+    }
+}
+
+# Use config when invoking
+response = chain.invoke(
+    {"question": "What is LangSmith?"},
+    config=config
+)
+```
+
+### Trace-Level Configuration
+```python
+# For entire trace
+config = {
+    "tags": ["important-query"],
+    "metadata": {"priority": "high"}
+}
+```
+
+### Run-Level Configuration
+```python
+# For individual component runs
+llm_config = {
+    "run_name": "GPT-4 Generation",
+    "tags": ["llm-call"],
+    "metadata": {"model": "gpt-4", "temperature": 0.7}
+}
+```
+
+**Result:** Organized, searchable, and well-labeled traces for easy debugging! 🏷️
+
+---
+
+*Next: Advanced LangSmith features...*
