@@ -7,15 +7,16 @@ from langsmith import traceable
 
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_groq import ChatGroq
+from langchain_ollama import OllamaEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
 from langchain_core.output_parsers import StrOutputParser
 
 load_dotenv()
-
-PDF_PATH = "islr.pdf"  # <- change to your file
+key = os.getenv("GROQ_API_KEY")
+PDF_PATH = "cc.pdf"  # <- change to your file
 
 # ----------------- helpers (not traced individually) -----------------
 @traceable(name="load_pdf")
@@ -32,7 +33,7 @@ def split_documents(docs, chunk_size=1000, chunk_overlap=150):
 
 @traceable(name="build_vectorstore")
 def build_vectorstore(splits):
-    emb = OpenAIEmbeddings(model="text-embedding-3-small")
+    emb = OllamaEmbeddings(model="nomic-embed-text:latest")
     return FAISS.from_documents(splits, emb)
 
 # ----------------- parent setup function (traced) -----------------
@@ -45,7 +46,7 @@ def setup_pipeline(pdf_path: str, chunk_size=1000, chunk_overlap=150):
     return vs
 
 # ----------------- model, prompt, and run -----------------
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+llm = ChatGroq(model="llama-3.3-70b-versatile", api_key=key)
 
 prompt = ChatPromptTemplate.from_messages([
     ("system", "Answer ONLY from the provided context. If not found, say you don't know."),

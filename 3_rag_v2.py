@@ -8,6 +8,8 @@ from langsmith import traceable  # <-- key import
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_groq import ChatGroq
+from langchain_ollama import OllamaEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
@@ -17,10 +19,12 @@ from langchain_core.output_parsers import StrOutputParser
 # LANGCHAIN_TRACING_V2=true
 # LANGCHAIN_API_KEY=...
 # LANGCHAIN_PROJECT=pdf_rag_demo
-
+import os
 load_dotenv()
 
-PDF_PATH = "islr.pdf"  # change to your file
+key = os.getenv("GROQ_API_KEY")
+
+PDF_PATH = "cc.pdf"  # change to your file
 
 # ---------- traced setup steps ----------
 @traceable(name="load_pdf")
@@ -37,7 +41,7 @@ def split_documents(docs, chunk_size=1000, chunk_overlap=150):
 
 @traceable(name="build_vectorstore")
 def build_vectorstore(splits):
-    emb = OpenAIEmbeddings(model="text-embedding-3-small")
+    emb = OllamaEmbeddings(model="nomic-embed-text:latest")
     # FAISS.from_documents internally calls the embedding model:
     vs = FAISS.from_documents(splits, emb)
     return vs
@@ -51,7 +55,7 @@ def setup_pipeline(pdf_path: str):
     return vs
 
 # ---------- pipeline ----------
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+llm = ChatGroq(model="llama-3.3-70b-versatile", api_key=key)
 
 prompt = ChatPromptTemplate.from_messages([
     ("system", "Answer ONLY from the provided context. If not found, say you don't know."),

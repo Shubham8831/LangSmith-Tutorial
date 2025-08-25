@@ -8,11 +8,15 @@ from pydantic import BaseModel, Field
 
 from langsmith import traceable
 from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from langgraph.graph import StateGraph, START, END
 
+import os
+load_dotenv()
+key = os.getenv("GROQ_API_KEY")
 # ---------- Setup ----------
 load_dotenv()
-model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+model = ChatGroq(model="llama-3.3-70b-versatile", api_key=key)
 
 # ---------- Structured schema & model ----------
 class EvaluationSchema(BaseModel):

@@ -1,12 +1,14 @@
 from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from langchain_core.tools import tool
 import requests
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain.agents import create_react_agent, AgentExecutor
 from langchain import hub
 from dotenv import load_dotenv
-
+import os
 load_dotenv()
+key = os.getenv("GROQ_API_KEY")
 
 search_tool = DuckDuckGoSearchRun()
 
@@ -21,7 +23,7 @@ def get_weather_data(city: str) -> str:
 
   return response.json()
 
-llm = ChatOpenAI()
+llm = ChatGroq(model="llama-3.3-70b-versatile", api_key=key)
 
 # Step 2: Pull the ReAct prompt from LangChain Hub
 prompt = hub.pull("hwchase17/react")  # pulls the standard ReAct agent prompt
