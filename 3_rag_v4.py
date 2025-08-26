@@ -1,3 +1,6 @@
+# SOLLUTIONS 2
+"""when first time we run this code we build a index(embeddings) in project directory. if it's present then we will use the exesting one and if not then we will create it """
+
 # pip install -U langchain langchain-openai langchain-community faiss-cpu pypdf python-dotenv langsmith
 
 import os
@@ -152,3 +155,13 @@ if __name__ == "__main__":
     q = input("\nQ: ").strip()
     ans = setup_pipeline_and_query(PDF_PATH, q)
     print("\nA:", ans)
+
+
+"""
+When will trigger the build path exactly :
+
+- no cache exists yet means first - ever run
+- pdf content changed
+- chunking params change -> chunk size or chunk overlap
+- embedding model name changes to another model
+"""

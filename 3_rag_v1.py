@@ -15,13 +15,14 @@ from langchain_core.output_parsers import StrOutputParser
 import os
 load_dotenv()  # expects OPENAI_API_KEY in .env
 
+os.environ["LANGCHAIN_PROJECT"] = "RAG Chatbot"
 key = os.getenv("GROQ_API_KEY")
 
 PDF_PATH = "cc.pdf"  # <-- change to your PDF filename
 
 # 1) Load PDF
 loader = PyPDFLoader(PDF_PATH)
-docs = loader.load()  # one Document per page
+docs = loader.load()  # one Document per page 
 
 # 2) Chunk
 splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
@@ -54,3 +55,13 @@ print("PDF RAG ready. Ask a question (or Ctrl+C to exit).")
 q = input("\nQ: ")
 ans = chain.invoke(q.strip())
 print("\nA:", ans)
+
+
+#PROBLEMS in above code 
+
+#1 langsmith not trace complete rag it only trace where the chain is executed and not the document loading, chunking and embedding part
+# by default langsmith trace only the runnable 
+
+
+#2 each run will take more time as we are loading, chunking, embedding and Vector Store every time we run 
+# idealy we should make a VS in the first run 

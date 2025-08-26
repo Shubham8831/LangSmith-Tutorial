@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 from pydantic import BaseModel, Field
 
 from langsmith import traceable
-from langchain_openai import ChatOpenAI
 from langchain_groq import ChatGroq
 from langgraph.graph import StateGraph, START, END
 
@@ -38,7 +37,7 @@ But problem come also. First is many villager no have phone or internet. So AI n
 
 One more big problem is privacy. AI need big big data. Who take care? India still make data rule. If no strong rule, AI do bad.
 
-India must all people together – govern, school, company and normal people. We teach AI and make sure AI not bad. Also talk to other country and learn from them.
+India must all people together - govern, school, company and normal people. We teach AI and make sure AI not bad. Also talk to other country and learn from them.
 
 If India use AI good way, we become strong, help poor and make better life. But if only rich use AI, and poor no get, then big bad thing happen.
 

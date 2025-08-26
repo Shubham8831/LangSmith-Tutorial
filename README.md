@@ -216,4 +216,84 @@ llm_config = {
 
 ---
 
-*Next: Advanced LangSmith features...*
+### 📚 RAG Implementation & Tracing Evolution
+
+---
+
+### 🔍 **3_rag_v1.py** - Initial RAG Implementation
+**Problem:** Only chains/runnables were being traced
+- ❌ Document loading not traced
+- ❌ Text chunking not traced  
+- ❌ Vector database creation not traced
+- ❌ Vector store recreated on every run (inefficient)
+
+**What we saw:** Incomplete visibility into the RAG pipeline
+
+---
+
+### 🛠️ **3_rag_v2.py** - Adding @traceable Decorator
+**Solution:** Use `@traceable` decorator for non-runnable functions
+
+```python
+from langsmith import traceable
+
+@traceable(name="Document Loader", tags=["preprocessing"])
+def load_documents():
+    # Document loading logic
+    pass
+
+@traceable(name="Text Splitter", tags=["preprocessing"])  
+def split_documents():
+    # Text chunking logic
+    pass
+
+@traceable(name="Vector Store Creation", tags=["preprocessing"])
+def create_vector_store():
+    # Vector database creation
+    pass
+```
+
+**New Problem:** Individual functions traced separately, not as unified pipeline
+
+---
+
+### 🔗 **3_rag_v3.py** - Pipeline Integration
+**Solution:** Combine all components into a cohesive pipeline
+- ✅ All functions traced with proper hierarchy
+- ✅ Unified pipeline view in LangSmith
+- ✅ Better organization with tags and metadata
+- ❌ Still recreating vector store every run
+
+**Result:** Complete pipeline visibility but performance issues remain
+
+---
+
+### ⚡ **3_rag_v4.py** - Optimized Final Version
+**Solution:** Persistent vector store + complete tracing
+- ✅ Vector store created once, reused across runs
+- ✅ All components properly traced
+- ✅ Efficient pipeline execution
+- ✅ Production-ready implementation
+
+### Key Decorator Features:
+```python
+@traceable(
+    name="Custom Function Name",
+    tags=["preprocessing", "rag"],
+    metadata={"version": "1.0", "type": "loader"}
+)
+def my_function():
+    pass
+```
+
+### Evolution Summary:
+| Version | Chains Traced | Functions Traced | Pipeline Unity | Efficiency |
+|---------|---------------|------------------|----------------|------------|
+| v1      | ✅            | ❌               | ❌             | ❌         |
+| v2      | ✅            | ✅               | ❌             | ❌         |
+| v3      | ✅            | ✅               | ✅             | ❌         |
+| v4      | ✅            | ✅               | ✅             | ✅         |
+
+**Final Result:** Production-ready RAG with complete observability! 🎯
+
+---

@@ -1,3 +1,10 @@
+# SOLLUTION's to problem
+"""
+- first all the loader, splitter and VD is converted in funtions
+- we trace the function by calling @tracable decorator giving a name 
+"""
+
+
 # pip install -U langchain langchain-openai langchain-community faiss-cpu pypdf python-dotenv langsmith
 
 import os
@@ -23,6 +30,8 @@ import os
 load_dotenv()
 
 key = os.getenv("GROQ_API_KEY")
+
+os.environ["LANGCHAIN_PROJECT"] = "RAG ChatBot"
 
 PDF_PATH = "cc.pdf"  # change to your file
 
