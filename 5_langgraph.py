@@ -1,3 +1,14 @@
+"""
+Problem in LangGraph - graph becomes complex and dificult 
+
+concepts:
+- each graph execution can be logged in LangSmith as a trace
+- each node (retriver, LLM, tool call, sub graph) becomes a run inside the trace
+- you can visualize the path taken :
+        START -> Retriver -> Reranker -> LLM Answer -> END
+- if a workflow branches(consitional/ parallel/subgraph), LangSmith captures which path was executed.
+"""
+
 # pip install -U langgraph langchain-openai pydantic python-dotenv langsmith
 
 import operator
@@ -13,8 +24,11 @@ from langgraph.graph import StateGraph, START, END
 import os
 load_dotenv()
 key = os.getenv("GROQ_API_KEY")
+
+os.environ["LANGCHAIN_PROJECT"] = "UPSC Agent"
+
+
 # ---------- Setup ----------
-load_dotenv()
 model = ChatGroq(model="llama-3.3-70b-versatile", api_key=key)
 
 # ---------- Structured schema & model ----------
@@ -55,6 +69,8 @@ class UPSCState(TypedDict, total=False):
     avg_score: float
 
 # ---------- Traced node functions ----------
+# langsmith actually traces the nodes but we have also traced the functions inside the node(this is optional).
+
 @traceable(name="evaluate_language_fn", tags=["dimension:language"], metadata={"dimension": "language"})
 def evaluate_language(state: UPSCState):
     prompt = (

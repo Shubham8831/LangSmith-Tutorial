@@ -297,3 +297,114 @@ def my_function():
 **Final Result:** Production-ready RAG with complete observability! 🎯
 
 ---
+
+## 🕸️ LangGraph Integration **5_langgraph.py**
+
+### The Challenge with Complex Graphs
+**Problem:** LangGraph workflows become complex and difficult to debug
+
+### LangSmith Solution:
+- **Each graph execution** → Logged as one trace
+- **Each node** (retriever, LLM, tool call, sub-graph) → Becomes a run inside the trace
+- **Path visualization:** See exact execution flow
+  ```
+  START → Retriever → Reranker → LLM Answer → END
+  ```
+- **Branch tracking:** When workflows branch (conditional/parallel/sub-graph), LangSmith captures which path was executed
+
+**Result:** Complete visibility into complex AI workflows! 🎯
+
+---
+
+## 🔧 Advanced LangSmith Features
+
+### 👥 **User Feedback Integration**
+**What it does:**
+- Capture thumbs up/down, ratings, or structured feedback from users in production
+- Feedback is logged alongside traces → tied to exact prompt, model, and state
+- Supports bulk analysis of what users like/dislike
+
+**Why it matters:** Real user feedback helps improve your AI system continuously
+
+---
+
+### 🤝 **Team Collaboration** 
+**What it does:**
+- Team members can view, share, and comment on traces, datasets, and evaluations
+- Web UI for non-engineers (PMs, QA, annotators) to inspect and annotate runs
+- Enables shared experiment dashboards
+
+**Why it matters:** Cross-functional teams can work together on AI improvements
+
+---
+
+### 📊 **Dataset Creation & Annotation**
+**What it does:**
+- Build datasets for evaluation and fine-tuning
+- Manual annotation (e.g., labeling whether an answer is correct)
+- Versioned datasets for reuse across projects
+
+**Why it matters:** High-quality datasets are critical for evaluation and feedback loops
+
+**Example:** Customer support dataset with common questions + expected answers to benchmark your RAG agent
+
+---
+
+### 🧪 **Prompt Experimentation**
+**What it does:**
+- Systematically test and compare different prompt versions
+- Run A/B tests across prompts on the same dataset
+- Track performance against evaluation metrics over time
+- Clear history of which prompt variations worked best
+
+**Why it matters:** Find the optimal prompts through data-driven testing
+
+---
+
+### 📈 **Evaluation System**
+**What it does:**
+- Systematically measure LLM output quality
+- Test against gold-standard datasets
+- Custom evaluation metrics: faithfulness, relevance, completeness
+- Multiple approaches: LLM-as-a-judge, semantic similarity, custom Python evaluators
+- Both offline (batch tests) and online (continuous checks) evaluation
+
+**Why it matters:** LLM behavior is unpredictable - evaluation provides objective, repeatable performance tracking
+
+**RAG Example Metrics:**
+- **Faithfulness** → Are answers grounded in retrieved documents?
+- **Relevance** → Did the response address the user's question?
+
+---
+
+### 🚨 **Monitoring & Alerting**
+**What it does:**
+- Track system health across many traces
+- Monitor: latency (P50, P95, P99), token usage, cost, error rates, success rates
+- Set up alerts for metric thresholds (latency spikes, cost growth, high error rates)
+
+**Why it matters:** Catch issues early before they impact users at scale
+
+---
+
+
+## 🎓 Conclusion
+
+LangSmith transforms AI development from guesswork to data-driven engineering:
+
+✅ **Debug** complex AI workflows with complete visibility  
+✅ **Monitor** production performance and costs  
+✅ **Evaluate** system quality systematically  
+✅ **Collaborate** effectively across teams  
+✅ **Experiment** with confidence using real data  
+
+### Your Next Steps:
+1. 🚀 Clone the [tutorial repo](https://github.com/Shubham8831/LangSmith-Tutorial)
+2. 🔧 Set up your environment
+3. 🏃‍♂️ Run the examples (1_simple_llm → 3_rag_v4)
+4. 📊 Explore the LangSmith dashboard
+5. 🎯 Apply these concepts to your own AI projects
+
+**Remember:** In the world of non-deterministic AI, observability isn't optional—it's essential for building reliable, production-ready applications.
+
+Happy debugging! 🐛✨

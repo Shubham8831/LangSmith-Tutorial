@@ -1,3 +1,7 @@
+"""
+putting both the chain runnable and function runnable together as a single component
+"""
+
 # pip install -U langchain langchain-openai langchain-community faiss-cpu pypdf python-dotenv langsmith
 
 import os
