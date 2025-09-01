@@ -179,9 +179,10 @@ python 1_simple_llm_call.py
 ```python
 import os
 os.environ['LANGCHAIN_PROJECT'] = f"Customer-Support-{datetime.now().strftime('%Y-%m')}"
+os.environ['LANGCHAIN_PROJECT'] = "your-project-name"
 ```
 
-### Comprehensive Tracing Configuration
+### Comprehensive Tracing Configuration(adding run_name, metadata and tags)
 ```python
 from langchain_core.runnables import RunnableConfig
 
@@ -204,7 +205,7 @@ response = chain.invoke(
 )
 ```
 
-### Hierarchical Trace Organization
+### Hierarchical Trace Organization(adding run_name, metadata and tags)
 ```python
 # Trace-level configuration
 trace_config = {
@@ -237,7 +238,7 @@ llm_config = {
 **Observation:** Limited debugging capability for RAG components
 
 ### Version 2: Adding Observability (`3_rag_v2.py`)
-**Solution:** `@traceable` decorator implementation
+**Solution:** `@traceable` decorator implementation above individual functions(can also add name, tag and metadata)
 
 ```python
 from langsmith import traceable
@@ -265,7 +266,7 @@ def create_vector_store(chunks):
     return vector_store
 ```
 
-**New Issue:** Components traced individually, lacking pipeline cohesion
+**New Issue:** Components traced individually, lacking pipeline 
 
 ### Version 3: Pipeline Integration (`3_rag_v3.py`)
 **Solution:** Unified pipeline with hierarchical tracing
