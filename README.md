@@ -1,148 +1,155 @@
-# **LangSmith: Why Do We Need It? 🤔**
 
-## The Problem with LLM Applications
+# LangSmith: Complete Observability Guide for AI Applications
 
-Large Language Models (LLMs) are powerful but come with unique challenges that traditional debugging tools can't handle.
+[![LangSmith](https://img.shields.io/badge/LangSmith-Observability-blue)](https://smith.langchain.com/)
+[![Tutorial](https://img.shields.io/badge/Tutorial-Hands--On-green)](https://github.com/Shubham8831/LangSmith-Tutorial)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## WHY LangSmith? 
+> **A comprehensive guide to implementing observability in AI applications using LangSmith**
 
-### The Core Issues:
-1. **Non-Deterministic Behavior** - Same input → Different outputs
-2. **Black Box Nature** - No clear explanation of what's happening inside
-3. **No Traditional Errors** - Problems occur silently without crashes
-
----
-
-## Real-World Problems
-
-### 🔍 Example 1: AI Job Assistant
-**What it does:** Finds relevant jobs and crafts cover letters with your resume
-
-**The Problem:**
-- Normal execution time: **1 minute**
-- Suddenly shoots up to: **10 minutes**
-- **Why?** Complex workflow with multiple components - impossible to identify the slow component
-
-### 💰 Example 2: Research Assistant Agent
-**What it does:** Provides detailed research answers
-
-**The Problem:**
-- Normal cost per query: **₹1**
-- Suddenly increases to: **₹20**
-- **Why?** No clear way to track which part of the pipeline is consuming more tokens
-
-### 🤖 Example 3: RAG Company Chatbot
-**What it does:** Answers questions about company policies and leave
-
-**The Problem:**
-- Chatbot starts **hallucinating** - giving false information
-- **Two possible causes:**
-  1. Retriever not finding relevant documents
-  2. LLM generating poor answers from good documents
-- **Why?** Can't determine which component is failing
+## Table of Contents
+- [Why LangSmith?](#why-langsmith)
+- [Core Concepts](#core-concepts)
+- [Getting Started](#getting-started)
+- [RAG Implementation Evolution](#rag-implementation-evolution)
+- [LangGraph Integration](#langgraph-integration)
+- [Advanced Features](#advanced-features)
+- [Best Practices](#best-practices)
+- [Resources](#resources)
 
 ---
 
-## The Challenge
+## Why LangSmith?
 
-Traditional debugging doesn't work because:
+### The AI Debugging Challenge
 
-- ❌ **No stack traces** when things go wrong
-- ❌ **No clear error messages** for quality issues
-- ❌ **Can't see inside** the LLM decision process
-- ❌ **Hard to track** performance across complex workflows
+Large Language Models (LLMs) present unique challenges that traditional debugging tools cannot handle:
 
-## The Solution: LangSmith
+**Core Issues:**
+- 🎲 **Non-Deterministic Behavior** - Same input produces different outputs
+- 🔒 **Black Box Nature** - No visibility into internal decision-making
+- 🔇 **Silent Failures** - Quality issues occur without error messages
+- 🕸️ **Complex Workflows** - Multi-step pipelines are hard to trace
 
-LangSmith provides **visibility and debugging tools** specifically designed for LLM applications, helping you:
+### Real-World Production Issues
 
-- 🔍 **Monitor** each step of your LLM workflow
-- 📊 **Track** performance, costs, and quality metrics
-- 🐛 **Debug** issues in complex AI pipelines
-- 📈 **Optimize** your applications based on real data
+#### 🔍 Case Study 1: AI Job Assistant
+**Application:** Automated job matching and cover letter generation
+- **Normal Performance:** 1 minute execution time
+- **Production Issue:** Sudden spike to 10 minutes
+- **Problem:** Cannot identify which component in the complex workflow is causing the slowdown
 
----
+#### 💰 Case Study 2: Research Assistant Agent
+**Application:** Detailed research query processing
+- **Normal Cost:** ₹1 per query
+- **Production Issue:** Cost jumps to ₹20 per query
+- **Problem:** No visibility into token consumption across pipeline components
 
-## What is Observability? 👀
+#### 🤖 Case Study 3: RAG-Based Policy Chatbot
+**Application:** Company policy and leave management assistant
+- **Production Issue:** Hallucinations providing incorrect information
+- **Root Causes:** Either retriever malfunction OR LLM generation issues
+- **Problem:** Cannot determine which component is failing
 
-**Observability** = The ability to see what's happening inside your system
+### Why Traditional Debugging Fails
 
-Think of it like having X-ray vision for your AI application:
-- **Trace every step** from start to finish
-- **Understand internal state** by looking at external outputs (logs, metrics, traces)
-- **Diagnose issues** and improve performance by analyzing system data
-
-### Why Traditional Monitoring Fails for AI?
-- Regular apps: Clear error messages, predictable flows
-- AI apps: Silent failures, complex multi-step workflows, unpredictable outputs
-
----
-
-## LangSmith: Your AI Observability Solution 🔬
-
-**LangSmith** is a unified platform for debugging, testing, and monitoring AI applications.
-
-### What Does LangSmith Trace?
-Every execution captures:
-- 📥 **Input & Output** - What goes in, what comes out
-- 🔄 **All Intermediate Steps** - Every component in your workflow
-- ⏱️ **Latency** - How long each step takes
-- 🪙 **Token Usage** - Exact tokens consumed
-- 💰 **Cost** - Real money spent per execution
-- ❌ **Errors** - When and where things break
-- 🏷️ **Tags & Metadata** - Custom labels for organization
-- 💬 **Feedback** - User ratings and comments
+- ❌ No stack traces for quality degradation
+- ❌ No error messages for incorrect outputs
+- ❌ Cannot inspect LLM reasoning process
+- ❌ Difficult to track performance across multi-step workflows
 
 ---
 
-## Core LangSmith Concepts 🧱
+## What is Observability?
 
-### 📁 **Project**
-The complete AI workflow/application
-- Example: User → Prompt → LLM → Parser
+**Observability** is the ability to understand your system's internal state by examining its external outputs.
 
-### 🔗 **Trace** 
-One single execution of your entire project
-- When a user asks one question = 1 trace
+### Key Components:
+- **📊 Logs** - What happened and when
+- **📈 Metrics** - Quantitative measurements
+- **🔍 Traces** - Request flow through system components
 
-### ⚙️ **Run**
-Execution of individual components within a trace
-- **Prompt Run**: Processing the user input
-- **LLM Run**: Getting response from the language model  
-- **Parser Run**: Formatting the final output
+### AI-Specific Observability Challenges:
+| Traditional Apps | AI Applications |
+|------------------|-----------------|
+| Predictable flows | Dynamic, context-dependent paths |
+| Clear error messages | Silent quality degradation |
+| Deterministic outputs | Non-deterministic responses |
+| Standard monitoring | Custom evaluation metrics needed |
 
-### Example Breakdown:
+---
+
+## LangSmith: AI Observability Platform
+
+[LangSmith](https://smith.langchain.com/) is a unified platform for debugging, testing, and monitoring AI applications.
+
+### What LangSmith Captures:
+- 📥 **Input/Output Data** - Complete request/response pairs
+- 🔄 **Intermediate Steps** - Every component execution
+- ⏱️ **Performance Metrics** - Latency, token usage, costs
+- ❌ **Error Tracking** - Failures and their contexts
+- 🏷️ **Custom Metadata** - Tags, versions, user information
+- 💬 **User Feedback** - Real-world quality assessments
+
+---
+
+## Core Concepts
+
+### 📁 Project
+The complete AI application or workflow
 ```
-Project: AI Job Assistant
-├── Trace 1: "Find me Python jobs"
-│   ├── Run 1: Process user query (Prompt)
-│   ├── Run 2: Search jobs database (LLM)
-│   └── Run 3: Format results (Parser)
-└── Trace 2: "Write cover letter"
-    ├── Run 1: Analyze job requirements (Prompt)
-    ├── Run 2: Generate letter (LLM)
-    └── Run 3: Format output (Parser)
+Example: Customer Support Bot
 ```
 
-**Result:** Complete visibility into every step of your AI application! 🎯
+### 🔗 Trace
+A single execution of your entire project
+```
+User Query: "What is our vacation policy?" = 1 Trace
+```
+
+### ⚙️ Run
+Individual component executions within a trace
+```
+Trace: "Vacation policy query"
+├── Run 1: Query Processing (Prompt Engineering)
+├── Run 2: Document Retrieval (Vector Search)
+├── Run 3: Context Ranking (Reranking)
+└── Run 4: Answer Generation (LLM)
+```
+
+### Visual Representation:
+```mermaid
+graph LR
+    A[User Query] --> B[Prompt Engineering]
+    B --> C[Vector Search]
+    C --> D[Reranking]
+    D --> E[LLM Generation]
+    E --> F[Response]
+```
 
 ---
 
-## 🚀 Getting Started with LangSmith
+## Getting Started
 
-### Step 1: Clone the Tutorial Repository
+### Prerequisites
+- Python 3.8+
+- [LangSmith Account](https://smith.langchain.com/) (Free tier available)
+- [Groq API Key](https://console.groq.com/keys) (Free tier available)
+
+### Step 1: Repository Setup
 ```bash
 git clone https://github.com/Shubham8831/LangSmith-Tutorial
 cd LangSmith-Tutorial
+pip install -r requirements.txt
 ```
 
-### Step 2: Environment Setup (.env file)
-Create a `.env` file in your project root with these keys:
+### Step 2: Environment Configuration
+Create a `.env` file in your project root:
 
 ```env
-# Groq API Key (for LLM calls)
+# API Keys
 GROQ_API_KEY=your_groq_api_key_here
-LANGCHAIN_API_KEY=langsmith_api_key_here
+LANGCHAIN_API_KEY=your_langsmith_api_key_here
 
 # LangSmith Configuration
 LANGCHAIN_TRACING_V2=true
@@ -150,261 +157,426 @@ LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
 LANGCHAIN_PROJECT=your_project_name
 ```
 
-### Step 3: Run Your First Example
+> 💡 **Get API Keys:**
+> - [LangSmith API Key](https://smith.langchain.com/settings)
+> - [Groq API Key](https://console.groq.com/keys)
+
+### Step 3: Run First Example
 ```bash
 python 1_simple_llm_call.py
 ```
 
 ### Step 4: View Results
-1. Open [LangSmith Website](https://smith.langchain.com/)
-2. Go to your project dashboard
-3. See detailed traces, costs, and performance metrics!
+1. Open [LangSmith Dashboard](https://smith.langchain.com/)
+2. Navigate to your project
+3. Explore traces, metrics, and performance data
 
 ---
 
-## 🎛️ Advanced Configuration
+## Advanced Configuration
 
-### Setting Project Name in Code
+### Dynamic Project Naming
 ```python
 import os
-os.environ['LANGCHAIN_PROJECT'] = "My AI Assistant"
+os.environ['LANGCHAIN_PROJECT'] = f"Customer-Support-{datetime.now().strftime('%Y-%m')}"
 ```
 
-### Adding Tags, Metadata & Custom Names
-Use the `config` parameter when invoking your chain:
-
+### Comprehensive Tracing Configuration
 ```python
-# Example configuration
-config = {
-    "run_name": "Custom Run Name",
-    "tags": ["production", "user-query", "v1.2"],
-    "metadata": {
-        "user_id": "user_123",
-        "session_id": "session_456",
-        "version": "1.2.0",
-        "environment": "production"
-    }
-}
+from langchain_core.runnables import RunnableConfig
 
-# Use config when invoking
+config = RunnableConfig(
+    run_name="Policy Query Handler",
+    tags=["production", "policy-bot", "v2.1"],
+    metadata={
+        "user_id": "user_12345",
+        "session_id": "session_67890",
+        "version": "2.1.0",
+        "environment": "production",
+        "model_version": "gpt-4-turbo",
+        "retrieval_method": "semantic_search"
+    }
+)
+
 response = chain.invoke(
-    {"question": "What is LangSmith?"},
+    {"question": "What is the vacation policy?"},
     config=config
 )
 ```
 
-### Trace-Level Configuration
+### Hierarchical Trace Organization
 ```python
-# For entire trace
-config = {
-    "tags": ["important-query"],
-    "metadata": {"priority": "high"}
+# Trace-level configuration
+trace_config = {
+    "tags": ["high-priority", "policy-query"],
+    "metadata": {"urgency": "high", "department": "HR"}
 }
-```
 
-### Run-Level Configuration
-```python
-# For individual component runs
+# Component-level configuration
 llm_config = {
-    "run_name": "GPT-4 Generation",
-    "tags": ["llm-call"],
-    "metadata": {"model": "gpt-4", "temperature": 0.7}
+    "run_name": "GPT-4 Policy Generation",
+    "tags": ["llm-generation"],
+    "metadata": {"temperature": 0.1, "max_tokens": 500}
 }
 ```
 
-**Result:** Organized, searchable, and well-labeled traces for easy debugging! 🏷️
-
 ---
 
-### 📚 RAG Implementation & Tracing Evolution
+## RAG Implementation Evolution
 
----
+> **Tutorial Files:** [GitHub Repository](https://github.com/Shubham8831/LangSmith-Tutorial)
 
-### 🔍 **3_rag_v1.py** - Initial RAG Implementation
-**Problem:** Only chains/runnables were being traced
-- ❌ Document loading not traced
-- ❌ Text chunking not traced  
-- ❌ Vector database creation not traced
-- ❌ Vector store recreated on every run (inefficient)
+### Version 1: Basic RAG (`3_rag_v1.py`)
+**Issues Identified:**
+- ❌ Only LangChain runnables traced
+- ❌ Document loading invisible
+- ❌ Text chunking not monitored
+- ❌ Vector store recreation on each run
+- ❌ Incomplete pipeline visibility
 
-**What we saw:** Incomplete visibility into the RAG pipeline
+**Observation:** Limited debugging capability for RAG components
 
----
-
-### 🛠️ **3_rag_v2.py** - Adding @traceable Decorator
-**Solution:** Use `@traceable` decorator for non-runnable functions
+### Version 2: Adding Observability (`3_rag_v2.py`)
+**Solution:** `@traceable` decorator implementation
 
 ```python
 from langsmith import traceable
 
-@traceable(name="Document Loader", tags=["preprocessing"])
-def load_documents():
-    # Document loading logic
-    pass
-
-@traceable(name="Text Splitter", tags=["preprocessing"])  
-def split_documents():
-    # Text chunking logic
-    pass
-
-@traceable(name="Vector Store Creation", tags=["preprocessing"])
-def create_vector_store():
-    # Vector database creation
-    pass
-```
-
-**New Problem:** Individual functions traced separately, not as unified pipeline
-
----
-
-### 🔗 **3_rag_v3.py** - Pipeline Integration
-**Solution:** Combine all components into a cohesive pipeline
-- ✅ All functions traced with proper hierarchy
-- ✅ Unified pipeline view in LangSmith
-- ✅ Better organization with tags and metadata
-- ❌ Still recreating vector store every run
-
-**Result:** Complete pipeline visibility but performance issues remain
-
----
-
-### ⚡ **3_rag_v4.py** - Optimized Final Version
-**Solution:** Persistent vector store + complete tracing
-- ✅ Vector store created once, reused across runs
-- ✅ All components properly traced
-- ✅ Efficient pipeline execution
-- ✅ Production-ready implementation
-
-### Key Decorator Features:
-```python
 @traceable(
-    name="Custom Function Name",
-    tags=["preprocessing", "rag"],
-    metadata={"version": "1.0", "type": "loader"}
+    name="Document Loader",
+    tags=["preprocessing", "io"],
+    metadata={"loader_type": "pdf", "chunk_size": 1000}
 )
-def my_function():
-    pass
+def load_documents(file_path: str):
+    """Load and process documents with full tracing"""
+    # Document loading implementation
+    return documents
+
+@traceable(name="Text Chunking", tags=["preprocessing"])
+def chunk_documents(documents):
+    """Split documents into chunks with tracing"""
+    # Chunking implementation
+    return chunks
+
+@traceable(name="Vector Store Creation", tags=["embedding"])
+def create_vector_store(chunks):
+    """Create vector database with tracing"""
+    # Vector store implementation
+    return vector_store
 ```
 
-### Evolution Summary:
-| Version | Chains Traced | Functions Traced | Pipeline Unity | Efficiency |
-|---------|---------------|------------------|----------------|------------|
-| v1      | ✅            | ❌               | ❌             | ❌         |
-| v2      | ✅            | ✅               | ❌             | ❌         |
-| v3      | ✅            | ✅               | ✅             | ❌         |
-| v4      | ✅            | ✅               | ✅             | ✅         |
+**New Issue:** Components traced individually, lacking pipeline cohesion
 
-**Final Result:** Production-ready RAG with complete observability! 🎯
+### Version 3: Pipeline Integration (`3_rag_v3.py`)
+**Solution:** Unified pipeline with hierarchical tracing
+- ✅ All components traced with proper relationships
+- ✅ Unified pipeline visualization
+- ✅ Organized metadata and tagging
+- ❌ Performance inefficiency remains
+
+**Achievement:** Complete pipeline observability
+
+### Version 4: Production-Ready (`3_rag_v4.py`)
+**Solution:** Optimized persistent vector store + comprehensive tracing
+- ✅ Vector store created once, reused efficiently
+- ✅ Complete component tracing
+- ✅ Production-grade performance
+- ✅ Comprehensive error handling
+
+### Evolution Comparison
+| Feature | v1 | v2 | v3 | v4 |
+|---------|----|----|----|----|
+| Chain Tracing | ✅ | ✅ | ✅ | ✅ |
+| Function Tracing | ❌ | ✅ | ✅ | ✅ |
+| Pipeline Unity | ❌ | ❌ | ✅ | ✅ |
+| Performance Optimized | ❌ | ❌ | ❌ | ✅ |
+| Production Ready | ❌ | ❌ | ❌ | ✅ |
 
 ---
 
-## 🕸️ LangGraph Integration **5_langgraph.py**
+## LangGraph Integration
 
-### The Challenge with Complex Graphs
-**Problem:** LangGraph workflows become complex and difficult to debug
+> **Example File:** `5_langgraph.py`
+
+### Complex Workflow Challenges
+**Problem:** LangGraph creates complex, branching workflows that are difficult to debug and monitor.
 
 ### LangSmith Solution:
-- **Each graph execution** → Logged as one trace
-- **Each node** (retriever, LLM, tool call, sub-graph) → Becomes a run inside the trace
-- **Path visualization:** See exact execution flow
-  ```
-  START → Retriever → Reranker → LLM Answer → END
-  ```
-- **Branch tracking:** When workflows branch (conditional/parallel/sub-graph), LangSmith captures which path was executed
+- **Graph Execution** → Complete trace with all nodes
+- **Each Node** → Individual run (retriever, LLM, tools, sub-graphs)
+- **Path Visualization** → Clear execution flow mapping
+- **Branch Tracking** → Conditional and parallel path monitoring
 
-**Result:** Complete visibility into complex AI workflows! 🎯
+### Example Workflow:
+```
+START → Query Analysis → Document Retrieval → Relevance Check
+                                          ↓
+    Response Generation ← Context Ranking ← [Relevant?]
+                                          ↓
+                              Fallback Response ← [Not Relevant?]
+```
 
----
-
-## 🔧 Advanced LangSmith Features
-
-### 👥 **User Feedback Integration**
-**What it does:**
-- Capture thumbs up/down, ratings, or structured feedback from users in production
-- Feedback is logged alongside traces → tied to exact prompt, model, and state
-- Supports bulk analysis of what users like/dislike
-
-**Why it matters:** Real user feedback helps improve your AI system continuously
+**Benefits:**
+- 🔍 Complete visibility into graph execution
+- 📊 Performance metrics for each node
+- 🐛 Easy identification of bottlenecks
+- 🔀 Understanding of decision paths
 
 ---
 
-### 🤝 **Team Collaboration** 
-**What it does:**
-- Team members can view, share, and comment on traces, datasets, and evaluations
-- Web UI for non-engineers (PMs, QA, annotators) to inspect and annotate runs
-- Enables shared experiment dashboards
+## Advanced Features
 
-**Why it matters:** Cross-functional teams can work together on AI improvements
+### 👥 User Feedback Integration
+**Implementation:**
+```python
+from langsmith import Client
+
+client = Client()
+
+# Capture user feedback
+client.create_feedback(
+    run_id=run_id,
+    key="user_rating",
+    score=0.8,
+    comment="Accurate and helpful response"
+)
+```
+
+**Capabilities:**
+- Real-time feedback collection
+- Feedback-trace correlation
+- Bulk analysis and insights
+- Quality improvement loops
+
+### 🤝 Team Collaboration
+**Features:**
+- Cross-functional dashboard access
+- Trace annotation and commenting
+- Shared experiment tracking
+- Role-based permissions
+
+**Use Cases:**
+- Product managers reviewing AI quality
+- QA teams annotating edge cases
+- Engineers debugging issues collaboratively
+
+### 📊 Dataset Management
+**Workflow:**
+```python
+from langsmith import Client
+
+client = Client()
+
+# Create evaluation dataset
+dataset = client.create_dataset(
+    dataset_name="Customer_Support_Eval",
+    description="Evaluation dataset for policy questions"
+)
+
+# Add examples
+client.create_example(
+    dataset_id=dataset.id,
+    inputs={"question": "What is the vacation policy?"},
+    outputs={"answer": "Employees get 20 days annual leave..."}
+)
+```
+
+**Applications:**
+- Model evaluation benchmarks
+- Fine-tuning data preparation
+- A/B testing frameworks
+- Performance regression testing
+
+### 🧪 Prompt Experimentation
+**A/B Testing Framework:**
+```python
+def run_prompt_experiment():
+    prompts = {
+        "formal": "Please provide a professional response...",
+        "casual": "Hey! Can you help me understand...",
+        "detailed": "Provide a comprehensive explanation..."
+    }
+    
+    for prompt_type, prompt_text in prompts.items():
+        config = {"tags": [f"experiment_{prompt_type}"]}
+        # Run evaluation with each prompt
+```
+
+### 📈 Evaluation System
+**Comprehensive Quality Metrics:**
+
+```python
+from langsmith.evaluation import LangChainStringEvaluator
+
+# Faithfulness evaluation
+faithfulness_evaluator = LangChainStringEvaluator("faithfulness")
+
+# Relevance evaluation
+relevance_evaluator = LangChainStringEvaluator("relevance")
+
+# Custom evaluation
+def custom_policy_evaluator(run, example):
+    """Custom evaluator for policy-specific responses"""
+    # Implementation
+    return {"score": score, "reasoning": explanation}
+```
+
+**Evaluation Types:**
+- **Offline:** Pre-deployment batch testing
+- **Online:** Continuous production monitoring
+- **Custom:** Domain-specific quality metrics
+
+### 🚨 Production Monitoring
+**Alert Configuration:**
+```python
+# Monitor key metrics
+metrics_to_track = {
+    "latency_p95": {"threshold": 2000, "unit": "ms"},
+    "cost_per_query": {"threshold": 0.50, "unit": "USD"},
+    "error_rate": {"threshold": 0.05, "unit": "percentage"},
+    "user_satisfaction": {"threshold": 0.8, "unit": "score"}
+}
+```
+
+**Monitoring Capabilities:**
+- Real-time performance dashboards
+- Automated alert systems
+- Cost tracking and optimization
+- Quality degradation detection
 
 ---
 
-### 📊 **Dataset Creation & Annotation**
-**What it does:**
-- Build datasets for evaluation and fine-tuning
-- Manual annotation (e.g., labeling whether an answer is correct)
-- Versioned datasets for reuse across projects
+## Best Practices
 
-**Why it matters:** High-quality datasets are critical for evaluation and feedback loops
+### 🏗️ Project Organization
+```python
+# Use descriptive project names
+os.environ['LANGCHAIN_PROJECT'] = f"PolicyBot-{environment}-v{version}"
 
-**Example:** Customer support dataset with common questions + expected answers to benchmark your RAG agent
+# Implement consistent tagging
+tags = [
+    f"env-{environment}",
+    f"version-{app_version}",
+    f"model-{model_name}",
+    "production" if is_production else "development"
+]
+```
+
+### 🔍 Effective Tracing
+```python
+@traceable(
+    name="Document Retrieval",
+    tags=["rag", "retrieval"],
+    metadata={
+        "retrieval_method": "semantic_search",
+        "top_k": 5,
+        "similarity_threshold": 0.8
+    }
+)
+def retrieve_documents(query: str):
+    # Clear, descriptive function names
+    # Comprehensive metadata
+    # Appropriate tagging
+    pass
+```
+
+### 📊 Evaluation Strategy
+1. **Define Clear Metrics:** Establish what "good" looks like
+2. **Create Diverse Datasets:** Cover edge cases and typical usage
+3. **Automate Evaluations:** Integrate into CI/CD pipeline
+4. **Monitor Continuously:** Track performance over time
+5. **Act on Insights:** Use data to drive improvements
+
+### 🔐 Security Considerations
+- Sanitize sensitive data in traces
+- Use appropriate access controls
+- Implement data retention policies
+- Regular security audits
 
 ---
 
-### 🧪 **Prompt Experimentation**
-**What it does:**
-- Systematically test and compare different prompt versions
-- Run A/B tests across prompts on the same dataset
-- Track performance against evaluation metrics over time
-- Clear history of which prompt variations worked best
+## Troubleshooting
 
-**Why it matters:** Find the optimal prompts through data-driven testing
+### Common Issues:
 
----
+**🔴 Traces Not Appearing**
+```python
+# Verify environment variables
+import os
+print(f"LANGCHAIN_TRACING_V2: {os.getenv('LANGCHAIN_TRACING_V2')}")
+print(f"LANGCHAIN_API_KEY: {'Set' if os.getenv('LANGCHAIN_API_KEY') else 'Not Set'}")
+```
 
-### 📈 **Evaluation System**
-**What it does:**
-- Systematically measure LLM output quality
-- Test against gold-standard datasets
-- Custom evaluation metrics: faithfulness, relevance, completeness
-- Multiple approaches: LLM-as-a-judge, semantic similarity, custom Python evaluators
-- Both offline (batch tests) and online (continuous checks) evaluation
+**🔴 High Costs**
+- Monitor token usage patterns
+- Implement caching strategies
+- Optimize prompt efficiency
+- Use appropriate model tiers
 
-**Why it matters:** LLM behavior is unpredictable - evaluation provides objective, repeatable performance tracking
-
-**RAG Example Metrics:**
-- **Faithfulness** → Are answers grounded in retrieved documents?
-- **Relevance** → Did the response address the user's question?
-
----
-
-### 🚨 **Monitoring & Alerting**
-**What it does:**
-- Track system health across many traces
-- Monitor: latency (P50, P95, P99), token usage, cost, error rates, success rates
-- Set up alerts for metric thresholds (latency spikes, cost growth, high error rates)
-
-**Why it matters:** Catch issues early before they impact users at scale
+**🔴 Performance Issues**
+- Check network latency
+- Optimize retrieval components
+- Implement async operations
+- Monitor resource utilization
 
 ---
 
+## Resources
 
-## 🎓 Conclusion
+### 📚 Documentation
+- [LangSmith Official Docs](https://docs.smith.langchain.com/)
+- [LangChain Documentation](https://python.langchain.com/)
+- [Best Practices Guide](https://docs.smith.langchain.com/evaluation/best_practices)
 
-LangSmith transforms AI development from guesswork to data-driven engineering:
+### 🎯 Learning Path
+1. **Beginner:** Start with `1_simple_llm_call.py`
+2. **Intermediate:** Progress through RAG implementations (v1-v4)
+3. **Advanced:** Explore LangGraph integration and evaluation
+4. **Expert:** Implement custom evaluators and monitoring
 
-✅ **Debug** complex AI workflows with complete visibility  
-✅ **Monitor** production performance and costs  
-✅ **Evaluate** system quality systematically  
-✅ **Collaborate** effectively across teams  
-✅ **Experiment** with confidence using real data  
+### 🛠️ Tools & Integrations
+- [LangSmith SDK](https://pypi.org/project/langsmith/)
+- [LangChain Hub](https://smith.langchain.com/hub)
+- [Community Examples](https://github.com/langchain-ai/langsmith-cookbook)
 
-### Your Next Steps:
-1. 🚀 Clone the [tutorial repo](https://github.com/Shubham8831/LangSmith-Tutorial)
-2. 🔧 Set up your environment
-3. 🏃‍♂️ Run the examples (1_simple_llm → 3_rag_v4)
-4. 📊 Explore the LangSmith dashboard
-5. 🎯 Apply these concepts to your own AI projects
+### 🤝 Community
+- [LangChain Discord](https://discord.gg/langchain)
+- [GitHub Discussions](https://github.com/langchain-ai/langchain/discussions)
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/langchain)
 
-**Remember:** In the world of non-deterministic AI, observability isn't optional—it's essential for building reliable, production-ready applications.
+---
 
-Happy debugging! 🐛✨
+## Conclusion
+
+LangSmith transforms AI development from experimental guesswork to systematic, data-driven engineering:
+
+### Key Benefits:
+- 🔍 **Complete Visibility** - See every step of your AI workflow
+- 📊 **Data-Driven Decisions** - Optimize based on real performance data
+- 🚀 **Faster Debugging** - Quickly identify and resolve issues
+- 👥 **Team Collaboration** - Enable cross-functional AI development
+- 📈 **Continuous Improvement** - Build feedback loops for quality enhancement
+
+### Your Learning Journey:
+1. 🚀 **Start Here:** Clone the [tutorial repository](https://github.com/Shubham8831/LangSmith-Tutorial)
+2. 🔧 **Setup:** Configure your environment following this guide
+3. 🎯 **Practice:** Run examples from simple LLM to complex RAG
+4. 📊 **Explore:** Use LangSmith dashboard for insights
+5. 🏗️ **Build:** Apply these concepts to your AI projects
+6. 📈 **Scale:** Implement production monitoring and evaluation
+
+### Final Thoughts
+In the era of non-deterministic AI, observability isn't just helpful—it's essential for building reliable, scalable applications that users can trust.
+
+**Ready to build better AI?** Start your journey with LangSmith today! 🚀
+
+---
+
+<div align="center">
+
+**Happy Building! 🎯**
+
+[![GitHub](https://img.shields.io/badge/GitHub-Tutorial-black?logo=github)](https://github.com/Shubham8831/LangSmith-Tutorial)
+[![LangSmith](https://img.shields.io/badge/LangSmith-Platform-blue)](https://smith.langchain.com/)
+
+</div>
